@@ -1,5 +1,5 @@
 # Vehicle-Parking-App---V1
-This is a web application for Vehicle Parking Management System intended to demonstrate the easy vehicle parking management in commercial,residential or institutional context.The system provides a user friendly UI for real time booking, managing and monitoring of the parking slots and minimizes congestion and human errors.
+This is a web based application for the 4 wheeler vehicle parking system, to demonstrate the simple parking management. The main goal is to make a user friendly application for the user to navigate through the application for the real time booking, managing the parking lots.
 
 # Features
 •	User Registration and Login
