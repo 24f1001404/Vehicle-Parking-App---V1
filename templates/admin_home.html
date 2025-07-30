@@ -1,0 +1,86 @@
+{% extends 'admin_base.html' %}
+
+{% block title %}
+Admin Home Page
+{% endblock %}
+
+
+{% block body %}
+
+{% with messages = get_flashed_messages( with_categories = true ) %}
+{% if messages %}
+<div class = "container mt-3">
+    {% for category , message in messages %}
+    <div class = "alert alert-danger alert-dismissible fade show d-flex align-items-center mb-3 rounded-3 shadow-sm" role = "alert">
+        <span class = "fs-4 me-2">⚠️</span>
+        <div>
+            {{ message }}
+        </div>
+        <button type = "button" class = "btn-close" data-bs-dismiss = "alert" aria-label = "Close"></button>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+{% endwith %}
+
+<div class = "container py-5">
+    <div class = "d-flex justify-content-between align-items-center mb-5">
+        <h1 class = "text-primary fw-bold mb-0">Parking Lots Overview</h1>
+        <a href = "{{ url_for( 'main_routes.AddParkingLot' ) }}" class = "btn btn-primary btn-lg rounded-pill shadow-sm">
+            <i class = "bi bi-plus-circle me-2"></i> Add New Lot
+        </a>
+    </div>
+
+    <div class = "row g-4">
+        {% for lot in parking_lots %}
+        <div class = "col-12 col-sm-6 col-md-4 col-lg-3"> 
+            <div class = "card h-100 p-3 rounded-3 shadow-lg border border-light">
+                <div class = "card-body">
+                    <h4 class = "card-title text-center mb-3 text-secondary fw-bold">{{ lot.name }}</h4>
+                    <p class = "card-text text-center text-muted mb-4">
+                        Occupied: <span class = "fw-bold text-danger">{{ lot.occupied }}</span> / Total: <span class = "fw-bold text-success">{{ lot.total }}</span>
+                    </p>
+
+                    <div class = "d-flex justify-content-center gap-2 mb-3">
+                        <a href = "{{ url_for( 'main_routes.AdminEditLot' , lot_id = lot.id ) }}" class = "btn btn-outline-primary btn-sm rounded-pill">Edit Lot</a>
+                        <form method = "POST" action = "{{ url_for( 'main_routes.DeleteLot' , lot_id = lot['id'] ) }}" style = "display:inline;"
+                            onsubmit = "return confirm( 'Are you sure you want to delete {{ lot.name }}? This action cannot be undone.' );">
+                            <input type = "hidden" name = "occupied" value = "{{ lot.occupied }}">
+                            <button type = "submit" class = "btn btn-outline-danger btn-sm rounded-pill">Delete Lot</button>
+                        </form>
+                    </div>
+
+                    <hr class = "my-4 border-secondary opacity-25">
+
+                    <h5 class = "text-center text-muted mb-3">Spots</h5>
+                    <div class = "d-flex flex-wrap justify-content-center gap-2">
+                        {% for spot in lot.spots %}
+                        <form method = "POST" action = "{{ url_for( 'main_routes.AdminViewSpot' ) }}">
+                            <input type = "hidden" name = "lot_id" value = "{{ lot.id }}">
+                            <input type = "hidden" name = "spot_number" value = "{{ spot.number }}">
+                            <input type = "hidden" name = "spot_status"
+                                value = "{{ 'Occupied' if spot.occupied else 'Available' }}">
+                            <button type="submit" class="btn spot {% if spot.occupied %}occupied{% else %}available{% endif %} rounded-3 p-2 fw-bold">
+                                {% if spot.occupied %}O{% else %}A{% endif %}
+                            </button>
+                        </form>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    {% if not parking_lots %}
+        <div class = "text-center mt-5 p-5 bg-white rounded-3 border text-muted shadow-sm">
+            <h3 class = "mb-3">No Parking Lots Found!</h3>
+            <p class = "lead">Start by adding your first parking lot to get started.</p>
+            <a href = "{{ url_for( 'main_routes.AddParkingLot' ) }}" class = "btn btn-primary btn-lg rounded-pill shadow-sm mt-3">
+                <i class = "bi bi-plus-circle me-2"></i> Add First Lot
+            </a>
+        </div>
+    {% endif %}
+</div>
+
+{% endblock %}

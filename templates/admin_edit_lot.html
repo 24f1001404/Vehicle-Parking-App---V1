@@ -1,0 +1,77 @@
+{% extends 'admin_base.html' %}
+
+{% block title %}Admin Edit Lot Page{% endblock %}
+
+
+{% block body %}
+
+{% with messages = get_flashed_messages( with_categories = true ) %}
+{% if messages %}
+<div class = "container mt-3">
+    {% for category , message in messages %}
+    <div class = "alert alert-danger alert-dismissible fade show d-flex align-items-center mb-3 rounded-3 shadow-sm" role = "alert">
+        <span class = "fs-4 me-2">⚠️</span>
+        <div>
+            {{ message }}
+        </div>
+        <button type = "button" class = "btn-close" data-bs-dismiss = "alert" aria-label = "Close"></button>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+{% endwith %}
+
+<div class = "container d-flex justify-content-center align-items-center min-vh-100 py-5">
+    <div class = "col-12 col-md-8 col-lg-7">
+        <div class = "card shadow-lg rounded-3 border border-light">
+            <div class = "card-header bg-primary text-white text-center py-3 rounded-top-3">
+                <h2 class = "mb-0 fw-bold">Edit Parking Lot Details</h2>
+            </div>
+            <div class = "card-body p-4">
+                <form method = "POST" action = "{{ url_for( 'main_routes.AdminEditLot' , lot_id = lot_id ) }}">
+
+                    <div class = "input-group mb-3">
+                        <span class = "input-group-text rounded-start" id = "basic-addon1">Parking Location Name</span>
+                        <input type = "text" class = "form-control rounded-end" value = "{{ data.parking_lot_name }}" name = "parking_lot_name"
+                            aria-describedby = "basic-addon1" required>
+                    </div>
+
+                    <div class = "input-group mb-3">
+                        <span class = "input-group-text rounded-start">Address</span>
+                        <textarea class = "form-control rounded-end" id = "address" rows = "3"
+                            name = "address">{{ data.address }}</textarea>
+                    </div>
+
+                    <div class = "input-group mb-3">
+                        <span class = "input-group-text rounded-start" id = "basic-addon3">Pin Code</span>
+                        <input type = "number" class = "form-control rounded-end" value = "{{ data.pin_code }}" name = "pin_code" aria-label = "number"
+                            aria-describedby = "basic-addon3" required>
+                    </div>
+
+                    <div class = "input-group mb-3">
+                        <span class = "input-group-text rounded-start" id = "basic-addon3">Price ( per hour )</span>
+                        <input type = "number" class = "form-control rounded-end" value = "{{ data.price_per_hour }}" name = "price" aria-label = "number"
+                            aria-describedby = "basic-addon3" required>
+                    </div>
+
+                    <div class = "input-group mb-4">
+                        <span class = "input-group-text rounded-start" id = "basic-addon3">Maximum Spots</span>
+                        <input type = "number" class = "form-control rounded-end" value = "{{ data.total_spots }}" name = "maximum_spots" aria-label = "number"
+                            aria-describedby = "basic-addon3" required>
+                    </div>
+
+                    <div class = "d-flex justify-content-center gap-3">
+                        <button type = "submit" class = "btn btn-primary btn-lg rounded-pill shadow-sm">
+                            <i class = "bi bi-save me-2"></i> Save Changes
+                        </button>
+                        <a href = "{{ url_for( 'main_routes.AdminHomePage' ) }}" class = "btn btn-outline-secondary btn-lg rounded-pill shadow-sm">
+                            <i class = "bi bi-x-circle me-2"></i> Cancel
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
