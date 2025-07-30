@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+Login Page
+{% endblock %}
+
+
+{% block nav %}
+
+
+<a class = "btn btn-primary rounded-pill shadow-sm me-2 d-flex align-items-center invisible disabled" href = "{{ url_for( 'main_routes.LoginPage' ) }}">
+    <i class = "bi bi-box-arrow-in-right me-1"></i>Login
+</a>
+<a class = "btn btn-outline-light rounded-pill shadow-sm d-flex align-items-center invisible disabled" href = "{{ url_for( 'main_routes.SignUpPage' ) }}">
+    <i class = "bi bi-person-plus-fill me-1"></i>Sign Up
+</a>
+
+
+{% endblock %}
+
+
+{% block body %}
+
+{% with messages = get_flashed_messages( with_categories = true ) %}
+{% if messages %}
+{% for category , message in messages %}
+<div class = "alert alert-danger alert-dismissible fade show d-flex align-items-center mb-0" role = "alert">
+    <span class = "fs-4 me-2">⚠️</span>
+    <div>
+        {{ message }}
+    </div>
+    <button type = "button" class = "btn-close" data-bs-dismiss = "alert" aria-label = "Close"></button>
+</div>
+{% endfor %}
+{% endif %}
+{% endwith %}
+
+<div class = "d-flex justify-content-center align-items-center min-vh-100 py-5">
+    <div class = "card shadow-lg p-4 p-md-5 w-100" style = "max-width: 450px;">
+        <div class = "card-body">
+            <h2 class = "card-title text-center mb-4 fw-bold text-primary">Login to Park Fast</h2>
+
+            <form action = "{{ url_for( 'main_routes.LoginPage' ) }}" method = "post">
+                <div class = "mb-3">
+                    <label for = "email" class = "form-label">Email address</label>
+                    <input type = "email" class = "form-control rounded-pill px-3 py-2" id = "email" name = "email" aria-describedby = "emailHelp">
+                    <div id = "emailHelp" class = "form-text mt-2">We'll never share your email with anyone else.</div>
+                </div>
+                <div class = "mb-3">
+                    <label for = "password" class = "form-label">Password</label>
+                    <input type = "password" class = "form-control rounded-pill px-3 py-2" id = "password" name = "password">
+                </div>
+                <div class = "d-grid gap-2 mt-4">
+                    <button type = "submit" class = "btn btn-primary btn-lg rounded-pill shadow-sm">
+                        <i class = "bi bi-box-arrow-in-right me-2"></i>Login
+                    </button>
+                </div>
+            </form>
+
+            <div class = "text-center mt-4 pt-3 border-top">
+                <p class = "mb-0 text-muted">Don't have an account? 
+                    <a href = "{{ url_for( 'main_routes.SignUpPage' ) }}" class = "text-primary fw-bold text-decoration-none">Sign Up Here</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

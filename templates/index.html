@@ -1,0 +1,252 @@
+{% extends 'base.html' %}
+
+
+{% block title %}Index Page{% endblock %}
+
+
+{% block nav %}
+
+{% if user.email  == " " %}
+<a class = "btn btn-primary rounded-pill shadow-sm me-2 d-flex align-items-center" href = "{{ url_for( 'main_routes.LoginPage' ) }}">
+    <i class = "bi bi-box-arrow-in-right me-1"></i>Login
+</a>
+<a class = "btn btn-outline-light rounded-pill shadow-sm d-flex align-items-center" href = "{{ url_for( 'main_routes.SignUpPage' ) }}">
+    <i class = "bi bi-person-plus-fill me-1"></i>Sign Up
+</a>
+{% else %}
+<form class = "d-flex" role = "search">
+    <div class = "dropdown ms-auto">
+        <button class = "btn btn-outline-primary dropdown-toggle" type = "button" data-bs-toggle = "dropdown"
+            aria-expanded = "false">
+            {{ user.name }}
+        </button>
+        <ul class = "dropdown-menu dropdown-menu-end p-3 shadow" style = "min-width: 250px;">
+            <li><strong>Name:</strong> {{ user.name }}</li>
+            <li><strong>Email:</strong>{{ user.email }}</li>
+
+            <li class = "mt-3 d-flex justify-content-between px-3">
+                <a href = "{{ url_for( 'main_routes.EditProfile' ) }}" class = "btn btn-sm btn-warning">Edit</a>
+                <a href = "{{ url_for( 'main_routes.ViewProfile' ) }}" class = "btn btn-sm btn-info text-white">View</a>
+            </li>
+            <li>
+                <hr class = "dropdown-divider">
+            </li>
+            <li><a class = "dropdown-item text-danger" href = "{{ url_for( 'main_routes.Logout' ) }}">Logout</a></li>
+        </ul>
+    </div>
+</form>
+{% endif %}
+
+{% endblock %}
+
+
+{% block body %}
+
+{% with messages = get_flashed_messages( with_categories = true ) %}
+{% if messages %}
+{% for category , message in messages %}
+<div class = "alert alert-danger alert-dismissible fade show d-flex align-items-center mb-0" role = "alert">
+    <span class = "fs-4 me-2">⚠️</span>
+    <div>
+        {{ message }}
+    </div>
+    <button type = "button" class = "btn-close" data-bs-dismiss = "alert" aria-label = "Close"></button>
+</div>
+{% endfor %}
+{% endif %}
+{% endwith %}
+
+
+
+
+
+
+
+<div class = "container-fluid vh-100 p-0 overflow-hidden">
+    <div class = "position-absolute top-50 start-50 translate-middle text-white text-center z-1">
+        <h1 class = "display-1 fw-bold mb-3">Park Fast</h1>
+        <p class = "lead mb-5 d-none d-md-block">Your ultimate solution for hassle-free parking management. Find , book , 
+            and manage your parking spots with ease!</p>
+        <a href = "{{ url_for( 'main_routes.BookPage' ) }}" class = "btn btn-primary btn-lg rounded-pill shadow-lg px-5 py-3 fs-5">
+            <i class = "bi bi-calendar-check me-2"></i>Book Your Spot Now
+        </a>
+    </div>
+
+    <div id = "carouselExampleCaptions" class = "carousel slide h-100" data-bs-ride = "carousel" data-bs-interval = "3000">
+        <div class = "carousel-indicators">
+            <button type = "button" data-bs-target = "#carouselExampleCaptions" data-bs-slide-to = "0" class = "active"
+                aria-current = "true" aria-label = "Slide 1"></button>
+            <button type = "button" data-bs-target = "#carouselExampleCaptions" data-bs-slide-to = "1"
+                aria-label = "Slide 2"></button>
+            <button type = "button" data-bs-target = "#carouselExampleCaptions" data-bs-slide-to = "2"
+                aria-label = "Slide 3"></button>
+        </div>
+        <div class = "carousel-inner h-100">
+            <div class = "carousel-item active h-100">
+                <img src = "/static/images/3.AVIF" class = "d-block w-100 h-100 object-fit-cover" alt = "Parking lot at night">
+                <div class = "carousel-caption d-none d-md-block">
+                    <h5>Find Your Spot , Anytime , Anywhere</h5>
+                    <p>Seamlessly locate and reserve parking spaces with just a few clicks.</p>
+                </div>
+            </div>
+            <div class = "carousel-item h-100">
+                <img src = "/static/images/2.WEBP" class = "d-block w-100 h-100 object-fit-cover"
+                    alt = "Modern parking garage">
+                <div class = "carousel-caption d-none d-md-block">
+                    <h5>Effortless Booking Experience</h5>
+                    <p>Secure your parking spot in advance and save time.</p>
+                </div>
+            </div>
+            <div class = "carousel-item h-100">
+                <img src = "/static/images/5.jpg" class = "d-block w-100 h-100 object-fit-cover"
+                    alt = "Car exiting a parking garage">
+                <div class = "carousel-caption d-none d-md-block">
+                    <h5>Smart Parking , Smarter You</h5>
+                    <p>Manage your reservations and view history with a personalized dashboard.</p>
+                </div>
+            </div>
+        </div>
+        <button class = "carousel-control-prev" type = "button" data-bs-target = "#carouselExampleCaptions"
+            data-bs-slide = "prev">
+            <span class = "carousel-control-prev-icon" aria-hidden = "true"></span>
+            <span class = "visually-hidden">Previous</span>
+        </button>
+        <button class = "carousel-control-next" type = "button" data-bs-target = "#carouselExampleCaptions"
+            data-bs-slide = "next">
+            <span class = "carousel-control-next-icon" aria-hidden = "true"></span>
+            <span class = "visually-hidden">Next</span>
+        </button>
+    </div>
+</div>
+
+<section class = "container my-5 py-5">
+    <h2 class = "text-center mb-5 display-5 fw-bold text-dark">Why Choose Park Fast?</h2>
+    <div class = "row g-4 justify-content-center">
+        <div class = "col-12 col-md-6 col-lg-4">
+            <div class = "card h-100 shadow-sm rounded-4 border-0">
+                <div class = "card-body text-center p-4">
+                    <i class = "bi bi-geo-alt-fill text-primary fs-1 mb-3"></i>
+                    <h5 class = "card-title fw-bold mb-3">Easy Location Discovery</h5>
+                    <p class = "card-text text-muted">Quickly find available parking spots near your destination using our
+                        intuitive search.</p>
+                </div>
+            </div>
+        </div>
+        <div class = "col-12 col-md-6 col-lg-4">
+            <div class = "card h-100 shadow-sm rounded-4 border-0">
+                <div class = "card-body text-center p-4">
+                    <i class = "bi bi-calendar-check-fill text-primary fs-1 mb-3"></i>
+                    <h5 class = "card-title fw-bold mb-3">Instant Booking & Reservation</h5>
+                    <p class = "card-text text-muted">Reserve your spot in advance and enjoy peace of mind knowing your
+                        parking is secured.</p>
+                </div>
+            </div>
+        </div>
+        <div class = "col-12 col-md-6 col-lg-4">
+            <div class = "card h-100 shadow-sm rounded-4 border-0">
+                <div class = "card-body text-center p-4">
+                    <i class = "bi bi-wallet-fill text-primary fs-1 mb-3"></i>
+                    <h5 class = "card-title fw-bold mb-3">Transparent Pricing</h5>
+                    <p class = "card-text text-muted">No hidden fees , just clear and simple hourly rates for every parking
+                        lot.</p>
+                </div>
+            </div>
+        </div>
+        <div class = "col-12 col-md-6 col-lg-4">
+            <div class = "card h-100 shadow-sm rounded-4 border-0">
+                <div class = "card-body text-center p-4">
+                    <i class = "bi bi-clock-fill text-primary fs-1 mb-3"></i>
+                    <h5 class = "card-title fw-bold mb-3">Time-Saving Convenience</h5>
+                    <p class = "card-text text-muted">Reduce wasted time searching for parking , especially in busy urban
+                        areas.</p>
+                </div>
+            </div>
+        </div>
+        <div class = "col-12 col-md-6 col-lg-4">
+            <div class = "card h-100 shadow-sm rounded-4 border-0">
+                <div class = "card-body text-center p-4">
+                    <i class = "bi bi-phone-fill text-primary fs-1 mb-3"></i>
+                    <h5 class = "card-title fw-bold mb-3">Mobile-Friendly Access</h5>
+                    <p class = "card-text text-muted">Access our platform seamlessly from any device , anytime , anywhere.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class = "col-12 col-md-6 col-lg-4">
+            <div class = "card h-100 shadow-sm rounded-4 border-0">
+                <div class = "card-body text-center p-4">
+                    <i class = "bi bi-shield-lock-fill text-primary fs-1 mb-3"></i>
+                    <h5 class = "card-title fw-bold mb-3">Secure & Reliable</h5>
+                    <p class = "card-text text-muted">Your booking details and personal information are kept safe and
+                        secure.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class = "bg-primary text-white py-5 my-5 text-center">
+    <div class = "container">
+        <h2 class = "display-4 fw-bold mb-4">Ready to Park Smarter?</h2>
+        <p class = "lead mb-5">Join thousands of satisfied drivers who trust Park Fast for their daily parking needs.</p>
+        <a href = "{{ url_for( 'main_routes.BookPage' ) }}" class = "btn btn-light btn-lg rounded-pill shadow-lg px-5 py-3 fs-5">
+            <i class = "bi bi-car-front-fill me-2"></i>Get Started Now
+        </a>
+    </div>
+</section>
+
+<section class = "container my-5 py-5">
+    <h2 class = "text-center mb-5 display-5 fw-bold text-dark">What Our Users Say</h2>
+    <div class = "row g-4 justify-content-center">
+        <div class = "col-12 col-md-6 col-lg-4">
+            <div class = "card h-100 shadow-sm rounded-4 border-0">
+                <div class = "card-body p-4">
+                    <div class = "d-flex justify-content-center mb-3">
+                        <i class = "bi bi-star-fill text-warning fs-5"></i>
+                        <i class = "bi bi-star-fill text-warning fs-5"></i>
+                        <i class = "bi bi-star-fill text-warning fs-5"></i>
+                        <i class = "bi bi-star-fill text-warning fs-5"></i>
+                        <i class = "bi bi-star-half text-warning fs-5"></i>
+                    </div>
+                    <p class = "card-text fst-italic text-center mb-3">"If the Industrial Revolution began with James
+                        Watt , the Parking Revolution begins with ParkFast."</p>
+                    <p class = "text-center fw-bold text-muted mb-0">- James Watt</p>
+                </div>
+            </div>
+        </div>
+        <div class = "col-12 col-md-6 col-lg-4">
+            <div class = "card h-100 shadow-sm rounded-4 border-0">
+                <div class = "card-body p-4">
+                    <div class = "d-flex justify-content-center mb-3">
+                        <i class = "bi bi-star-fill text-warning fs-5"></i>
+                        <i class = "bi bi-star-fill text-warning fs-5"></i>
+                        <i class = "bi bi-star-fill text-warning fs-5"></i>
+                        <i class = "bi bi-star-fill text-warning fs-5"></i>
+                        <i class = "bi bi-star-fill text-warning fs-5"></i>
+                    </div>
+                    <p class = "card-text fst-italic text-center mb-3">"That's a great idea you've got there. How about we
+                        make it huge together?"</p>
+                    <p class = "text-center fw-bold text-muted mb-0">- Donald Trump</p>
+                </div>
+            </div>
+        </div>
+        <div class = "col-12 col-md-6 col-lg-4">
+            <div class = "card h-100 shadow-sm rounded-4 border-0">
+                <div class = "card-body p-4">
+                    <div class = "d-flex justify-content-center mb-3">
+                        <i class = "bi bi-star-fill text-warning fs-5"></i>
+                        <i class = "bi bi-star-fill text-warning fs-5"></i>
+                        <i class = "bi bi-star-fill text-warning fs-5"></i>
+                        <i class = "bi bi-star-fill text-warning fs-5"></i>
+                        <i class = "bi bi-star-half text-warning fs-5"></i>
+                    </div>
+                    <p class = "card-text fst-italic text-center mb-3">"I'm not saying I'm Batman , but we both never have
+                        trouble finding parking."</p>
+                    <p class = "text-center fw-bold text-muted mb-0">- Bruce Wayne</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
