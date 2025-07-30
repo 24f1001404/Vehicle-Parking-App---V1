@@ -143,9 +143,13 @@ class admin:
         return ( user_id , vehicle_number , reserved_time , cost )
     
     def diagram( self ):
+        
         reservation.generate_monthly_revenue_bar_chart()
+        
         reservation.generate_revenue_by_lot_pie_chart()
+        
         self.booking_diagram()
+        
     def booking_diagram( self ):
         data = parking_spot_data.parking_lot_spots_status()
         parking_lots = [parking_lot_data.get_parking_lot_name_by_id( id ) for id , a , o in data]

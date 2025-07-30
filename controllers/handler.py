@@ -289,7 +289,6 @@ def Release():
     
     if 'role' not in session or ( session['role'] != 'user' ):
         return redirect( url_for( 'main_routes.IndexPage' ) )
-    
     flag = request.form.get( "flag" )
     reservation_id = request.form.get( 'id' )
     price = int( request.form.get( 'price' , "100" ) )
