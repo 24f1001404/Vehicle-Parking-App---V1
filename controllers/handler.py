@@ -286,21 +286,22 @@ def ParkIn():
 
 @main_routes.route( '/Release' , methods = ['POST'] )
 def Release():
+    
     if 'role' not in session or ( session['role'] != 'user' ):
         return redirect( url_for( 'main_routes.IndexPage' ) )
+    
     flag = request.form.get( "flag" )
     reservation_id = request.form.get( 'id' )
     price = int( request.form.get( 'price' , "100" ) )
     Release_time = datetime.now().strftime( '%Y-%m-%d %H:%M:%S')
     reserved_time = request.form.get( 'reserved_time' )
-
     if ( flag  == "True" ):
         id = reservation_id
         current_user.Release( id , reserved_time , price )
         return redirect( url_for( "main_routes.HomePage" ) )
-        
     r = reservation.get_spot_details_by_reseravtion( reservation_id )
     spot_id = r.parking_spot_id
+    
     lot_id = r.parking_lot_id
     vn = r.vehicle_number
     return render_template( 'Release.html' , reservation_id = reservation_id , spot_id = spot_id , vehicle_number = vn , reserve_time = reserved_time , Release_time = Release_time , lot_id = lot_id , total_cost = price , user = current_user )
@@ -310,14 +311,18 @@ def AdminOccupiedSpotDetails():
     if 'role' not in session or ( session['role'] != 'admin' ):
         return redirect( url_for( 'main_routes.IndexPage' ) )
     parking_lot_id = request.form.get( 'lot_id' )
+    
     spot_number = int( request.form.get( 'spot_number' ) )
+    
     ( user_id , vehicle_number , reserved_time , cost ) = current_admin.occupied_spot_detail( parking_lot_id , spot_number )
     if (cost < 0):
       cost = 0
     p = parking_lot_data.get_by_id(int(parking_lot_id))
+    
     parking_lot_name = p.parking_lot_name
     u = user_data.get_by_user_id(int(user_id))
     user_name = u.name
+    
     return render_template( 'admin_occupied_spot_details.html',parking_lot_name = parking_lot_name , user_name = user_name , parking_lot_id = parking_lot_id , spot_number = spot_number , user_id = user_id , vehicle_number = vehicle_number , date_time = reserved_time , parking_cost = cost , admin = current_admin )
 
 @main_routes.route( '/Logout' , methods = ['GET' , 'POST'] )
