@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+
+{% block title %}Book Page{% endblock %}
+
+{% block nav %} 
+
+<form class = "d-flex" role = "search">
+    <div class = "dropdown ms-auto">
+        <button class = "btn btn-outline-primary dropdown-toggle" type = "button" data-bs-toggle = "dropdown"
+            aria-expanded = "false">
+            {{ user.name }}
+        </button>
+        <ul class = "dropdown-menu dropdown-menu-end p-3 shadow" style = "min-width: 250px;">
+            <li><strong>Name:</strong> {{ user.name }}</li>
+            <li><strong>Email:</strong>{{ user.email }}</li>
+
+            <li class = "mt-3 d-flex justify-content-between px-3">
+                <a href = "{{ url_for( 'main_routes.EditProfile' ) }}" class = "btn btn-sm btn-warning">Edit</a>
+                <a href = "{{ url_for( 'main_routes.ViewProfile' ) }}" class = "btn btn-sm btn-info text-white">View</a>
+            </li>
+            <li>
+                <hr class = "dropdown-divider">
+            </li>
+            <li><a class = "dropdown-item text-danger" href = "{{ url_for( 'main_routes.Logout' ) }}">Logout</a></li>
+        </ul>
+    </div>
+</form>
+{% endblock %}
+
+
+{% block body %}
+
+{% with messages = get_flashed_messages( with_categories = true ) %}
+{% if messages %}
+{% for category , message in messages %}
+<div class = "alert alert-danger alert-dismissible fade show d-flex align-items-center mb-0" role = "alert">
+    <span class = "fs-4 me-2">⚠️</span>
+    <div>
+        {{ message }}
+    </div>
+    <button type = "button" class = "btn-close" data-bs-dismiss = "alert" aria-label = "Close"></button>
+</div>
+{% endfor %}
+{% endif %}
+{% endwith %}
+
+<div class = "container my-5">
+    <h2 class = "text-center mb-4 display-5 fw-bold text-dark">Find Available Parking</h2>
+
+    <div class = "card shadow-lg p-4 mb-5 mx-auto" style = "max-width: 800px; border-radius: 1rem;">
+        <div class = "card-body">
+            <form class = "d-flex flex-wrap align-items-center justify-content-center" method = "POST" action = "{{ url_for( 'main_routes.BookPage' ) }}">
+                <div class = "mb-2 mb-md-0 me-md-2 flex-grow-0" style = "min-width: 150px;">
+                    <select class = "form-select rounded-pill px-3 py-2" name = "type" required>
+                        <option value = "pin_code">Pin Code</option>
+                        <option value = "parking_lot">Parking Lot Name</option>
+                        <option value = "location">Location</option>
+                    </select>
+                </div>
+                <div class = "flex-grow-1 mb-2 mb-md-0 me-md-2">
+                    <input class = "form-control rounded-pill px-3 py-2" type = "search" name = "query" placeholder = "Search by Pin Code , Lot Name , or Location..." required
+                        aria-label = "Search">
+                </div>
+                <div class = "mb-2 mb-md-0">
+                    <button type = "submit" class = "btn btn-primary rounded-pill px-3 py-2 shadow-sm w-100 w-md-auto">
+                        <i class = "bi bi-search fs-4"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class = "row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+ 
+            
+
+
+
+        {% if not_empty %}
+    {% if result.empty %}
+        <div class = "col-12">
+            <div class = "alert alert-warning text-center py-4 rounded-3 shadow-sm" role = "alert">
+                <h4 class = "alert-heading display-6 mb-3"><i class = "bi bi-exclamation-circle me-2"></i>No Match Found!</h4>
+                <p class = "lead mb-0">Your search did not return any results. Please try a different query.</p>
+            </div>
+        </div>
+    {% else %}
+        {% for lot in result.parking_lots %}
+        <div class = "col">
+            <div class = "card h-100 shadow-sm border-0 rounded-4">
+                <div class = "card-body p-4">
+                    <h5 class = "card-title text-primary mb-3 fw-bold">
+                        <i class = "bi bi-tag-fill me-2"></i>Lot: {{ lot.id }} - {{ lot.name }}
+                    </h5>
+                    <ul class = "list-unstyled mb-4 text-muted">
+                        <li class = "mb-2">
+                            <i class = "bi bi-geo-alt-fill me-2"></i>
+                            <strong>Address:</strong> {{ lot.address }} , {{ lot.pincode }}
+                        </li>
+                        <li class = "mb-2">
+                            <i class = "bi bi-cash-stack me-2"></i>
+                            <strong>Price/hour:</strong> ₹{{ lot.price_per_hour }}
+                        </li>
+                        <li>
+                            <i class = "bi bi-car-front-fill me-2"></i>
+                            <strong>Available:</strong> <span class = "fw-bold {% if lot.available > 0 %}text-success{% else %}text-danger{% endif %}">{{ lot.available }}</span> / {{ lot.total }}
+                        </li>
+                    </ul>
+                    {% if lot.available > 0 %}
+                    <form action = "{{ url_for( 'main_routes.BookingPage' ) }}" method = "post">
+                        <input type = "number" name = "lot_id" value = "{{ lot.id }}" hidden>
+                        <input type = "number" name = "price" value = "{{ lot.price_per_hour }}" hidden>
+                        <button type = "submit" class = "btn btn-primary w-100 rounded-pill shadow-sm">
+                            <i class = "bi bi-calendar-check me-2"></i>Book Now
+                        </button>
+                    </form>
+                    {% else %}
+                    <button class = "btn btn-secondary w-100 rounded-pill disabled">
+                        <i class = "bi bi-x-circle me-2"></i>Full
+                    </button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    {% endif %}
+{% else %}
+    <div class = "col-12">
+        <div style = "height: 300px;"></div>  
+    </div>
+{% endif %}
+
+{% endblock %}
