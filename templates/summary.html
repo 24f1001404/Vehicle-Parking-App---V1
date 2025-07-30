@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}User Summary{% endblock %}
+
+
+{% block nav %}
+
+<form class = "d-flex" role = "search">
+    <div class = "dropdown ms-auto">
+        <button class = "btn btn-outline-primary dropdown-toggle" type = "button" data-bs-toggle = "dropdown"
+            aria-expanded = "false">
+            {{ user.name }}
+        </button>
+        <ul class = "dropdown-menu dropdown-menu-end p-3 shadow" style = "min-width: 250px;">
+            <li><strong>Name:</strong> {{ user.name }}</li>
+            <li><strong>Email:</strong>{{ user.email }}</li>
+
+            <li class = "mt-3 d-flex justify-content-between px-3">
+                <a href = "{{ url_for( 'main_routes.EditProfile' ) }}" class = "btn btn-sm btn-warning">Edit</a>
+                <a href = "{{ url_for( 'main_routes.ViewProfile' ) }}" class = "btn btn-sm btn-info text-white">View</a>
+            </li>
+            <li>
+                <hr class = "dropdown-divider">
+            </li>
+            <li><a class = "dropdown-item text-danger" href = "{{ url_for( 'main_routes.Logout' ) }}">Logout</a></li>
+        </ul>
+    </div>
+</form>
+{% endblock %}
+
+
+{% block body %}
+<div class = "container py-5">
+    <h1 class = "text-center mb-5 text-primary fw-bold">Your Parking Activity Summary</h1>
+
+    <div class = "card mb-5 p-4 rounded-3 shadow-lg border border-light" style = "max-width: 780px; margin: 0 auto;">
+        <h2 class = "card-title text-center mb-4 text-secondary">Monthly Spending</h2>
+        <p class = "text-center text-muted mb-4">Total amount spent on parking each month.</p>
+        <img src = "/static/images/monthly_amount_user.png" alt = "Monthly Spending Chart" class = "img-fluid rounded-3 mb-3 mx-auto d-block w-65">
+    </div>
+
+    <div class = "card mb-5 p-4 rounded-3 shadow-lg border border-light" style = "max-width: 780px; margin: 0 auto;">
+        <h2 class = "card-title text-center mb-4 text-secondary">Monthly Bookings</h2>
+        <p class = "text-center text-muted mb-4">Number of parking spots booked each month.</p>
+        <img src = "/static/images/monthly_bookings_user.png" alt = "Monthly Bookings Chart" class = "img-fluid rounded-3 mb-3 mx-auto d-block w-65">
+    </div>
+
+    <div class = "card mb-4 p-4 rounded-3 shadow-lg border border-light" style = "max-width: 780px; margin: 0 auto;">
+        <h2 class = "card-title text-center mb-4 text-secondary">Bookings by Parking Lot</h2>
+        <p class = "text-center text-muted mb-4">Distribution of your bookings across different lots.</p>
+        <img src = "/static/images/lot_distribution_user.png" alt = "Bookings by Parking Lot Chart" class = "img-fluid rounded-3 mb-3 mx-auto d-block w-65">
+    </div>
+</div>
+
+
+{% endblock %}

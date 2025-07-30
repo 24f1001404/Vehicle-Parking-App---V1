@@ -1,0 +1,44 @@
+{% extends 'admin_base.html' %}
+
+{% block title %}
+Admin Summary Page
+{% endblock %}
+
+
+{% block body %}
+
+<div class = "container py-5">
+    <h1 class = "text-center mb-5 text-primary fw-bold">Admin Dashboard - Summary Overview</h1>
+    
+    <div class = "row justify-content-center g-4">
+        <div class = "col-12 col-md-6">
+            <div class = "card h-100 p-4 rounded-3 shadow-lg border border-light">
+                <h2 class = "card-title text-center mb-4 text-secondary">Parking Spot Status by Lot</h2>
+                <div class = "text-center mb-3">
+                    <img src = "/static/images/booking_bar_chart.png" alt = "Parking Spot Status Bar Chart" class = "img-fluid rounded-3">
+                </div>
+            </div>
+        </div>
+
+        <div class = "col-12 col-md-6">
+            <div class = "card h-100 p-4 rounded-3 shadow-lg border border-light">
+                <h2 class = "card-title text-center mb-4 text-secondary">Revenue per Parking Lot</h2>
+                <div class = "text-center mb-3">
+                    <img src = "/static/images/revenue_by_lot_pie.png" alt = "Revenue Pie Chart" class = "img-fluid rounded-3">
+                </div>
+            </div>
+        </div>
+
+        <div class = "col-12 col-md-6">
+            <div class = "card h-100 p-4 rounded-3 shadow-lg border border-light">
+                <h2 class = "card-title text-center mb-4 text-secondary">Monthly Revenue Trends</h2>
+                <div class = "text-center mb-3">
+                    <img src = "/static/images/monthly_revenue_bar.png" alt = "Monthly Revenue Graph" class = "img-fluid rounded-3">
+                </div>
+                <p class = "text-muted text-center small">Illustrates the total revenue generated each month to identify performance trends.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
