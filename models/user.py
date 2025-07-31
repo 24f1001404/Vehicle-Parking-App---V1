@@ -40,12 +40,15 @@ class user_data( db.Model ):
         
         db.session.commit()
         
-    def check_password( self , pwd ):
-        return self.password  == pwd
+    def check_password( user_id , pwd ):
+        d = user_data.query.get(user_id)
+        flag = (d.password == pwd)
+        print(flag)
+        return flag
 
     def verify_user( email , pwd ):
         u = user_data.query.filter_by( email = email ).first()
-        if u and u.check_password( pwd ) :
+        if u.password == pwd:
             return True
         return False
     
@@ -67,7 +70,7 @@ class user_data( db.Model ):
         return user_data.query.get(id)
     
     def get_users():
-        return user_data.query.offset( 1 ).all()
+        return user_data.query.all()
     
     def CheckEmail( mail ):
         if user_data.query.filter_by( email = mail ).first():

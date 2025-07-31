@@ -1,0 +1,79 @@
+{% extends 'admin_base.html' %}
+
+{% block title %}
+Admin Query Page
+{% endblock %}
+
+
+{% block body %}
+
+<div class = "container py-5">
+    <h1 class = "text-center mb-5 text-primary fw-bold">Admin Panel - User Queries</h1>
+    {% if queries %}
+    <div class = "card shadow-lg rounded-3 border border-light mb-5">
+        <div class = "card-body p-4">
+            <div class = "table-responsive">
+                <table class = "table table-hover align-middle">
+                    <thead class = "table-dark rounded-top-3">
+                        <tr>
+                            <th scope = "col" class = "rounded-top-start">S.No</th>
+                            <th scope = "col">Name</th>
+                            <th scope = "col">Query</th>
+                            <th scope = "col">Date</th>
+                            <th scope = "col">Status</th>
+                            <th scope = "col">Reply</th>
+                            <th scope = "col" class = "rounded-top-end">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for query in queries %}
+                        <tr class = "{% if query.status  == 'pending' %}table-warning{% else %}table-light{% endif %}">
+                            <td>{{ loop.index }}</td>
+                            <td>{{ query.name }}</td>
+                            <td>{{ query.query }}</td>
+                            <td>{{ query.date }}</td>
+                            <td>
+                                {% if query.status  == 'pending' %}
+                                <span class = "badge bg-warning text-dark rounded-pill py-2 px-3">Pending</span>
+                                {% else %}
+                                <span class = "badge bg-success rounded-pill py-2 px-3">Resolved</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <form action = "/reply/{{ query.id }}" method = "POST">
+                                    <textarea class = "form-control mb-2 rounded-3" name = "reply" rows = "2"
+                                        placeholder = "Type your reply here..." required>{{ query.reply or '' }}</textarea>
+                                    <button type = "submit" class = "btn btn-success btn-sm rounded-pill shadow-sm">
+                                        <i class = "bi bi-send me-1"></i> Send Reply
+                                    </button>
+                                </form>
+                            </td>
+                            <td>
+                                {% if query.status  == 'pending' %}
+                                <form action = "/mark-resolved/{{ query.id }}" method = "POST">
+                                    <button class = "btn btn-outline-primary btn-sm rounded-pill shadow-sm">
+                                        <i class = "bi bi-check-circle me-1"></i> Mark as Resolved
+                                    </button>
+                                </form>
+                                {% else %}
+                                <span class = "text-muted fw-semibold">Done <i class = "bi bi-check-all"></i></span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class = "text-center mt-5 p-5 bg-white rounded-3 border text-muted shadow-sm">
+        <h3 class = "mb-3">No User Queries Found!</h3>
+        <p class = "lead">There are currently no questions or feedback from users.</p>
+        <i class = "bi bi-chat-dots d-block fs-1 text-secondary mt-4"></i>
+    </div>
+    {% endif %}
+</div>
+
+
+{% endblock %}

@@ -16,7 +16,7 @@ class user:
             self.get()
 
     def check( self , pwd ):
-        return self.data.check_password( pwd )
+        return user_data.check_password(self.user_id, pwd )
 
     def update_email( self , email ):
         self.email = email
@@ -29,7 +29,9 @@ class user:
         return user_data.verify_user( email , pwd )
     
     def update( self , email = None , name = None , phone = None , gender = None , dob = None , address = None , vehicle_number = None , pwd = None ):
-        self.data.update_user( email , name , phone , gender , dob , address , vehicle_number , pwd )
+        print( email , name  , phone  , gender , dob , address  , vehicle_number , pwd )
+
+        self.data.update_user( self.email , self.name , self.phone , self.gender , self.DOB , self.address , self.vechile_number , pwd )
         
     def get_recent_parking_history(self):
         user_id = self.user_id 
@@ -185,7 +187,7 @@ class user:
         pre_data.delete_pre_data_user()
     
     def customer_care( self , query ):
-        Queries.insert( self.data.user_id , query )
+        Queries.insert( self.user_id , query )
     
     def all_queries( self ):
         data = Queries.user_queries( self.user_id )

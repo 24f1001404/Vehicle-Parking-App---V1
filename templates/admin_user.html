@@ -1,0 +1,50 @@
+{% extends 'admin_base.html' %}
+
+{% block title %}Admin User Page{% endblock %}
+
+
+{% block body %}
+
+<div class = "container py-5">
+    <h1 class = "text-center mb-5 text-primary fw-bold">Manage Users</h1>
+
+    {% if users and users|length > 0 %}
+    <div class = "card shadow-lg rounded-3 border border-light p-4">
+        <div class = "table-responsive">
+            <table class = "table table-hover align-middle">
+                <thead class = "table-dark rounded-top-3">
+                    <tr>
+                        <th scope = "col" class = "rounded-top-start">User Id</th>
+                        <th scope = "col">Email ID</th>
+                        <th scope = "col">Full Name</th>
+                        <th scope = "col">Phone Number</th>
+                        <th scope = "col">Gender</th>
+                        <th scope = "col">DOB</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in range( n ) %}
+                    <tr class = "table-light"> 
+                        <td>{{ users[i].user_id }}</td>
+                        <td>{{ users[i].email_id }}</td>
+                        <td>{{ users[i].full_name }}</td>
+                        <td>{{ users[i].phone_number }}</td>
+                        <td>{{ users[i].gender }}</td>
+                        <td>{{ users[i].DOB}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% else %}
+    <div class = "text-center mt-5 p-5 bg-white rounded-3 border text-muted shadow-sm">
+        <h3 class = "mb-3">No Users Found!</h3>
+        <p class = "lead">There are currently no registered users in the system.</p>
+        <i class = "bi bi-people-fill d-block fs-1 text-secondary mt-4"></i>
+    </div>
+    {% endif %}
+
+</div>
+
+{% endblock %}

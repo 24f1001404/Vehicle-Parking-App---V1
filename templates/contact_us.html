@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% block title %}Contact Page{% endblock %}
+
+{% block nav %}
+
+<form class = "d-flex" role = "search">
+    <div class = "dropdown ms-auto">
+        <button class = "btn btn-outline-primary dropdown-toggle" type = "button" data-bs-toggle = "dropdown"
+            aria-expanded = "false">
+            {{ user.name }}
+        </button>
+        <ul class = "dropdown-menu dropdown-menu-end p-3 shadow" style = "min-width: 250px;">
+            <li><strong>Name:</strong> {{ user.name }}</li>
+            <li><strong>Email:</strong>{{ user.email }}</li>
+
+            <li class = "mt-3 d-flex justify-content-between px-3">
+                <a href = "{{ url_for( 'main_routes.EditProfile' ) }}" class = "btn btn-sm btn-warning">Edit</a>
+                <a href = "{{ url_for( 'main_routes.ViewProfile' ) }}" class = "btn btn-sm btn-info text-white">View</a>
+            </li>
+            <li>
+                <hr class = "dropdown-divider">
+            </li>
+            <li><a class = "dropdown-item text-danger" href = "{{ url_for( 'main_routes.Logout' ) }}">Logout</a></li>
+        </ul>
+    </div>
+</form>
+{% endblock %}
+
+
+{% block body %}
+
+<div class = "container py-5">
+    <h1 class = "text-center mb-4 text-primary fw-bold">Contact Us</h1>
+    <p class = "text-center text-muted mb-5">Have a question or feedback? We would love to hear it from you!</p>
+
+    <div class = "row justify-content-center mb-5">
+        <div class = "col-12 col-md-8 col-lg-6">
+            <div class = "card p-5 rounded-3 shadow-lg border border-light">
+                <h2 class = "card-title text-center mb-4 text-secondary">Send Us Your Query</h2>
+                <form action = "{{ url_for( 'main_routes.SubmitQuery' ) }}" method = "POST">
+                    <div class = "mb-3">
+                        <label for = "query" class = "form-label fw-semibold text-muted">Your Message</label>
+                        <textarea class = "form-control rounded-3" id = "query" name = "query" rows = "6" placeholder = "Type your question or feedback here..." required></textarea>
+                    </div>
+
+                    <div class = "d-grid">
+                        <button type = "submit" class = "btn btn-primary btn-lg rounded-pill shadow-sm">Submit Query</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class = "row justify-content-center">
+        <div class = "col-12 col-md-8 col-lg-6">
+            <h2 class = "text-center mb-4 text-primary fw-bold">Your Questions & Answers</h2>
+            
+            <div class = "accordion rounded-3 shadow-lg border border-light" id = "userQueries">
+                {% for query in queries %}
+                <div class = "accordion-item border-0 {% if loop.first %}rounded-top-3{% endif %} {% if loop.last %}rounded-bottom-3{% endif %}">
+                    <h2 class = "accordion-header" id = "heading{{ loop.index }}">
+                        <button class = "accordion-button {% if not loop.first %}collapsed{% endif %} rounded-top-3" type = "button" data-bs-toggle = "collapse" data-bs-target = "#collapse{{ loop.index }}" aria-expanded = "{% if loop.first %}true{% else %}false{% endif %}" aria-controls = "collapse{{ loop.index }}">
+                            <span class = "fw-semibold text-dark">{{ loop.index }}. {{ query.query }}</span>
+                        </button>
+                    </h2>
+                    <div id = "collapse{{ loop.index }}" class = "accordion-collapse collapse {% if loop.first %}show{% endif %}" aria-labelledby = "heading{{ loop.index }}" data-bs-parent = "#userQueries">
+                        <div class = "accordion-body text-muted">
+                            {% if query.reply is none %}
+                                <p class = "mb-0">Please wait until our technical team is available. We will get back to you shortly.</p>
+                            {% else %}
+                                <p class = "mb-0">{{ query.reply }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% if not queries %}
+                <div class = "text-center mt-4 p-4 bg-light rounded-3 border text-muted">
+                    <p class = "mb-0">You haven't submitted any queries yet. Use the form above to ask us anything!</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

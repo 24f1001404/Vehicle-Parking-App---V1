@@ -188,7 +188,7 @@ class reservation(db.Model):
 
         for res in reservations:
             try:
-                res_date = datetime.datetime.strptime(res.reserved_time, DATE_FORMAT)
+                res_date = datetime.strptime(res.reserved_time, DATE_FORMAT)
                 if res_date.year == current_year:
                     lot_revenue[res.parking_lot_id] += res.amount
             except (ValueError, IndexError):

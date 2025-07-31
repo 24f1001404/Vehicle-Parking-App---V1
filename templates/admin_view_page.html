@@ -1,0 +1,35 @@
+{% extends 'admin_base.html' %}
+
+{% block title %}Admin Profile{% endblock %}
+
+
+{% block body %}
+
+<div class = "container d-flex justify-content-center align-items-center min-vh-100 py-5">
+    <div class = "col-12 col-md-8 col-lg-6"> 
+        <div class = "card shadow-lg rounded-3 border border-light">
+            <div class = "card-header bg-primary text-white text-center py-3 rounded-top-3">
+                <h2 class = "mb-0 fw-bold">Admin Profile</h2>
+            </div>
+            <div class = "card-body p-4">
+                <h3 class = "card-title text-center text-primary mb-4">{{ user.name }}</h3>
+                <hr class = "mb-4">
+                <div class = "text-start px-3">
+                    <p class = "mb-2"><strong class = "fw-semibold text-dark">Email : </strong> <span class = "text-muted">{{ user.email }}</span></p>
+                    <p class = "mb-2"><strong class = "fw-semibold text-dark">Gender : </strong> <span class = "text-muted">{{ user.gender }}</span></p>
+                    <p class = "mb-0"><strong class = "fw-semibold text-dark">Date of Birth : </strong> <span class = "text-muted">{{ user.DOB }}</span></p>
+                </div>
+            </div>
+            <div class = "card-footer text-center py-3 rounded-bottom-3">
+                <a href = "{{ url_for( 'main_routes.AdminEditPage' ) }}" class = "btn btn-primary me-3 rounded-pill shadow-sm">
+                    <i class = "bi bi-pencil-square me-2"></i> Edit Profile
+                </a>
+                <a href = "{{ url_for( 'main_routes.AdminHomePage' ) }}" class = "btn btn-outline-secondary rounded-pill shadow-sm">
+                    <i class = "bi bi-arrow-left-circle me-2"></i> Back to Home
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

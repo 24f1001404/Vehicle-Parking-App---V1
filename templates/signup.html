@@ -103,6 +103,12 @@ Sign Up Page
                     <button type = "submit" class = "btn btn-primary btn-lg rounded-pill shadow-sm">Sign Up</button>
                 </div>
             </form>
+            
+            <div class = "text-center mt-4 pt-3 border-top">
+                <p class = "mb-0 text-muted">Already have an account? 
+                    <a href = "{{ url_for( 'main_routes.LoginPage' ) }}" class = "text-primary fw-bold text-decoration-none">Log In</a>
+                </p>
+            </div>
         </div>
     </div>
 {% endblock %}
